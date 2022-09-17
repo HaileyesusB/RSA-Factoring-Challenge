@@ -1,12 +1,17 @@
-#!/usr/bin/env bash
-# Prints a natural numbers to factor.
+#!/usr/bin/python3
+import sys
 
-FILE=$1
-while read Fnumber
-do
-    factors=($(factor $Fnumber))
-    echo "$Fnumber=$(($Fnumber/${factors[1]}))*${factors[1]}"
-done < $FILE
-	(time ./a.out) 2>&1|grep real;
-	(time ./a.out) 2>&1|grep user;
-	(time ./a.out) 2>&1|grep sys;
+f = open(sys.argv[1], 'r')
+
+lines = f.readlines()
+
+for line in lines:
+    if line:
+        var = int(line.strip())
+        if var % 2 == 0:
+            print("{}={}*{}".format(var, var // 2, 2))
+            continue
+        for mod in range(3, var, 2):
+            if var % mod == 0:
+                print("{}={}*{}".format(var, var // mod, mod))
+                break
